@@ -19,6 +19,6 @@ stuf-env  = { path = "../../stuf-env", default-features = false, features = ["al
 stuf-encoding = { path = "../../stuf-encoding", default-features = false, features = ["alloc", "jcs"] }
 cortex-m = { version = "0.7", features = ["critical-section-single-core"] }
 cortex-m-rt = { version = "0.7" }
-cortex-m-semihosting = { version = "0.5" }
+cortex-m-semihosting = { version = "0.6" }
 panic-semihosting    = { version = "0.6" }
 embedded-alloc = "0.7"
