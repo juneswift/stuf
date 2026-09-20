@@ -14,5 +14,5 @@ no-heap = []
 no-heap-jcs = ["no-heap"]
 
 [dependencies]
-serde = { version = "=1.0.228", default-features = false }
+serde = { version = "=1.0.229", default-features = false }
 serde_json = { version = "1.0", default-features = false, features = ["alloc"], optional = true }

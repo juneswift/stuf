@@ -13,7 +13,7 @@ bench = false
 
 [dependencies]
 sha2 = { version = "0.11", default-features = false }
-serde = { version = "=1.0.228", default-features = false }
+serde = { version = "=1.0.229", default-features = false }
 stuf-tuf = { path = "../../stuf-protocols/tuf", default-features = false, features = ["alloc", "crypto-ed25519", "hash-sha256"] }
 stuf-env  = { path = "../../stuf-env", default-features = false, features = ["alloc", "crypto-ed25519", "hash-sha256", "clock-fixed"] }
 stuf-encoding = { path = "../../stuf-encoding", default-features = false, features = ["alloc", "jcs"] }

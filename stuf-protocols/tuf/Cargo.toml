@@ -23,7 +23,7 @@ crypto-ed25519 = ["stuf-env/crypto-ed25519"]
 hash-sha256 = ["stuf-env/hash-sha256"]
 
 [dependencies]
-serde = { version = "=1.0.228", default-features = false, features = ["derive"] }
+serde = { version = "=1.0.229", default-features = false, features = ["derive"] }
 hex = { version = "0.4", default-features = false, optional = true }
 stuf-core = { path = "../../stuf-core" }
 stuf-encoding = { path = "../../stuf-encoding", default-features = false }
