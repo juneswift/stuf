@@ -8,6 +8,9 @@ description = "stuf TUF demo — no-heap ARM Cortex-M3 firmware updater"
 name = "toaster-no-heap"
 path = "src/main.rs"
 
+test = false
+bench = false
+
 [dependencies]
 stuf-tuf = { path = "../../stuf-protocols/tuf", default-features = false, features = ["no-heap", "crypto-ed25519", "hash-sha256"] }
 stuf-env = { path = "../../stuf-env", default-features = false, features = ["crypto-ed25519", "hash-sha256", "clock-fixed"] }

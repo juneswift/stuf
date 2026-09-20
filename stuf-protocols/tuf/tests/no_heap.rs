@@ -1,16 +1,20 @@
 #![cfg(feature = "no-heap")]
 
+#[cfg(feature = "alloc")]
 mod common;
 
+#[cfg(feature = "alloc")]
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::PathBuf;
 
 use stuf_env::clock::FixedClock;
 use stuf_env::transport::Transport;
+#[cfg(feature = "alloc")]
 use stuf_tuf::error::Error;
 use stuf_tuf::verify::no_heap::TrustAnchor;
 
+#[cfg(feature = "alloc")]
 use common::*;
 
 const NOW: u64 = 1_700_000_000;
@@ -30,22 +34,19 @@ impl Transport for NoTransport {
     }
 }
 
-fn repo_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../")
-        .canonicalize()
-        .expect("workspace root")
+fn fixture_dir() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/no_heap")
 }
 
 fn read(path: &str) -> Vec<u8> {
-    fs::read(repo_root().join(path)).unwrap_or_else(|e| {
-        panic!("failed to read {path}: {e}");
+    fs::read(fixture_dir().join(path)).unwrap_or_else(|e| {
+        panic!("failed to read fixture {path}: {e}");
     })
 }
 
 #[test]
 fn no_heap_root_verifies_against_publisher_output() {
-    let root = read("stuf-examples/toaster/factory/root.json");
+    let root = read("root.json");
 
     let _anchor =
         TrustAnchor::new(&root, NoTransport, FixedClock(NOW)).expect("no-heap root should verify");
@@ -53,11 +54,11 @@ fn no_heap_root_verifies_against_publisher_output() {
 
 #[test]
 fn no_heap_full_chain_verifies_against_publisher_output() {
-    let root = read("stuf-examples/toaster/factory/root.json");
-    let timestamp = read("stuf-examples/.generated/publisher-repo/timestamp.json");
-    let snapshot = read("stuf-examples/.generated/publisher-repo/snapshot.json");
-    let targets = read("stuf-examples/.generated/publisher-repo/targets.json");
-    let firmware = read("stuf-examples/.generated/publisher-repo/toaster-firmware-1.1.0.bin");
+    let root = read("root.json");
+    let timestamp = read("timestamp.json");
+    let snapshot = read("snapshot.json");
+    let targets = read("targets.json");
+    let firmware = read("toaster-firmware-1.1.0.bin");
 
     let anchor =
         TrustAnchor::new(&root, NoTransport, FixedClock(NOW)).expect("no-heap root should verify");
@@ -81,6 +82,7 @@ fn no_heap_full_chain_verifies_against_publisher_output() {
     assert_eq!(verified.into_inner().length, firmware.len() as u64);
 }
 
+#[cfg(feature = "alloc")]
 fn make_no_heap_chain_with_target_hash(
     sha256: Option<String>,
 ) -> (Vec<u8>, Vec<u8>, Vec<u8>, Vec<u8>) {
@@ -104,6 +106,7 @@ fn make_no_heap_chain_with_target_hash(
     )
 }
 
+#[cfg(feature = "alloc")]
 #[test]
 fn no_heap_truncated_target_sha256_reports_invalid_hash_length() {
     let short_hash = "abcd1234abcd1234abcd1234abcd1234".to_string();
@@ -128,6 +131,7 @@ fn no_heap_truncated_target_sha256_reports_invalid_hash_length() {
     ));
 }
 
+#[cfg(feature = "alloc")]
 #[test]
 fn no_heap_non_hex_target_sha256_reports_invalid_hash_encoding() {
     let bad_hex = "z".repeat(64);
@@ -149,6 +153,7 @@ fn no_heap_non_hex_target_sha256_reports_invalid_hash_encoding() {
     assert!(matches!(err, Error::InvalidHashEncoding));
 }
 
+#[cfg(feature = "alloc")]
 #[test]
 fn no_heap_wrong_target_sha256_reports_target_hash_mismatch() {
     let wrong_hash = "a".repeat(64);
@@ -170,6 +175,7 @@ fn no_heap_wrong_target_sha256_reports_target_hash_mismatch() {
     ));
 }
 
+#[cfg(feature = "alloc")]
 #[test]
 fn no_heap_bad_snapshot_metadata_hash_length_reports_invalid_hash_length() {
     let rk = TestKey::generate();
@@ -200,6 +206,7 @@ fn no_heap_bad_snapshot_metadata_hash_length_reports_invalid_hash_length() {
     ));
 }
 
+#[cfg(feature = "alloc")]
 #[test]
 fn no_heap_wrong_snapshot_metadata_hash_reports_metadata_hash_mismatch() {
     let rk = TestKey::generate();
@@ -230,6 +237,7 @@ fn no_heap_wrong_snapshot_metadata_hash_reports_metadata_hash_mismatch() {
     ));
 }
 
+#[cfg(feature = "alloc")]
 #[test]
 fn no_heap_bad_metadata_length_reports_metadata_length_mismatch() {
     let rk = TestKey::generate();
