@@ -225,6 +225,8 @@ fn main() -> ! {
     flash_write(firmware);
     hprintln!("ok firmware v{} installed (verified, no heap)", NEW_VERSION);
     hprintln!("");
+    hprintln!("demo complete.");
 
+    cortex_m_semihosting::debug::exit(cortex_m_semihosting::debug::EXIT_SUCCESS);
     loop {}
 }
