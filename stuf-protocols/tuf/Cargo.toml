@@ -32,7 +32,7 @@ stuf-env = { path = "../../stuf-env", default-features = false }
 [dev-dependencies]
 stuf-env = { path = "../../stuf-env", features = ["alloc", "crypto-ed25519", "hash-sha256", "transport-mock", "clock-fixed"] }
 stuf-encoding = { path = "../../stuf-encoding" }
-ed25519-dalek = { version = "2.0", default-features = false, features = ["rand_core"] }
+ed25519-dalek = { version = "3.0", default-features = false, features = ["rand_core"] }
 rand = "0.8"
 sha2 = { version = "0.11", default-features = false }
 hex = { version = "0.4" }
